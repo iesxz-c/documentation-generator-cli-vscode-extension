@@ -1,0 +1,74 @@
+{
+  "name": "ai-docgen",
+  "displayName": "AI DocGen",
+  "description": "Generate Markdown docs for the current project using the bundled Python CLI",
+  "version": "0.0.1",
+  "publisher": "akash0x",
+  "author": {
+    "name": "Akash"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://example.com/your-repo.git"
+  },
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": ["Other"],
+  "keywords": ["documentation", "markdown", "python", "graph", "git"],
+  "activationEvents": ["*"],
+  "main": "out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "aiDocGen.generateWorkspace",
+        "title": "AI DocGen: Generate Docs for Workspace"
+      },
+      {
+        "command": "aiDocGen.generateFolder",
+        "title": "AI DocGen: Generate Docs for Folder"
+      },
+      {
+        "command": "aiDocGen.setPythonPath",
+        "title": "AI DocGen: Set Python Path"
+      }
+    ],
+    "menus": {
+      "commandPalette": [
+        { "command": "aiDocGen.generateWorkspace", "when": "workspaceFolderCount > 0" },
+        { "command": "aiDocGen.generateFolder", "when": "workspaceFolderCount > 0" },
+        { "command": "aiDocGen.setPythonPath" }
+      ]
+    },
+    "configuration": {
+      "type": "object",
+      "title": "AI DocGen",
+      "properties": {
+        "aiDocGen.pythonPath": {
+          "type": "string",
+          "description": "Absolute path to Python executable (uses workspace venv if empty)",
+          "default": ""
+        },
+        "aiDocGen.outputPath": {
+          "type": "string",
+          "description": "Output markdown relative to workspace root",
+          "default": "build/docs.md"
+        },
+        "aiDocGen.repoPath": {
+          "type": "string",
+          "description": "Repo path to document (default: workspace root)",
+          "default": ""
+        }
+      }
+    }
+  },
+  "scripts": {
+    "compile": "tsc -p .",
+    "watch": "tsc -w -p ."
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.7",
+    "typescript": "^5.6.3",
+    "@types/vscode": "^1.85.0"
+  }
+}
