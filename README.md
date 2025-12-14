@@ -271,8 +271,6 @@ Contributions welcome! Please feel free to submit a Pull Request.
 
 ---
 
-Made with ❤️ by Akash
-
 ## 📋 Table of Contents
 
 - [Installation](#installation)
