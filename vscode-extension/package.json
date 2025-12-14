@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://example.com/your-repo.git"
+    "url": "https://github.com/iesxz-c/documentation-generator-cli-vscode-extension.git"
   },
   "engines": {
     "vscode": "^1.85.0"
