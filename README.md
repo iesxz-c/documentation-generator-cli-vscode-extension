@@ -1,52 +1,277 @@
-# Code Documentation Generator – Intelligent Code Documentation Generator
+# AI DocGen – Intelligent Documentation Generator
 
-Automatically generate comprehensive, AI-powered technical documentation for Python, JavaScript, and TypeScript codebases. **AI DocGen** parses your code, analyzes git history, builds knowledge graphs, and generates beautifully formatted Markdown documentation with intelligent summaries, line-by-line explanations, dry runs, and execution traces.
+🚀 **Automatically generate comprehensive, AI-powered technical documentation for Python, JavaScript, and TypeScript codebases.**
 
-## 🎯 Overview
+[![VS Code Marketplace](https://img.shields.io/badge/VS%20Code-Marketplace-blue?logo=visual-studio-code)](https://marketplace.visualstudio.com/items?itemName=akash0x.ai-docgen)
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-black?logo=github)](https://github.com/iesxz-c/documentation-generator-cli-vscode-extension)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-**AI DocGen** is an end-to-end documentation generation pipeline that transforms raw code into structured, human-readable technical documentation. It leverages:
+AI DocGen is an end-to-end documentation generation pipeline that transforms raw code into structured, human-readable technical documentation. Available as both a **Python CLI** and a **VS Code Extension**.
 
-- **Multi-language parsers** (Python, JavaScript, TypeScript) with tree-sitter for robust AST parsing
-- **Git history analysis** to understand code evolution and hotspots
-- **Knowledge graphs** to visualize dependencies and relationships
-- **LLM integration** (Google Gemini) for intelligent summaries with graceful fallbacks
-- **Heuristic analysis** for code flow, execution traces, and line-by-line explanations
+---
 
-### Key Features
+## 📦 Installation
 
-✨ **Automatic Multi-Language Parsing**
-- Python (.py) – tree-sitter + stdlib ast fallback
-- JavaScript (.js, .jsx) – tree-sitter with regex fallback
-- TypeScript (.ts, .tsx) – tree-sitter with regex fallback
-- Extracts: functions, classes, imports, docstrings, call graphs
+### VS Code Extension (Recommended)
 
-📊 **Architecture Visualization**
+Install directly from the [VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=akash0x.ai-docgen):
+
+1. Open VS Code
+2. Go to Extensions (Ctrl+Shift+X)
+3. Search "AI DocGen"
+4. Click Install
+
+Or install via command line:
+```bash
+code --install-extension akash0x.ai-docgen
+```
+
+### Python CLI
+
+```bash
+git clone https://github.com/iesxz-c/documentation-generator-cli-vscode-extension.git
+cd ai-docgen
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+---
+
+## 🎯 Features
+
+### 🔍 **Multi-Language Parsing**
+- Python (.py), JavaScript (.js, .jsx), TypeScript (.ts, .tsx)
+- Tree-sitter AST parsing with intelligent fallbacks
+- Extracts functions, classes, imports, docstrings, and call graphs
+
+### 📊 **Architecture Visualization**
 - Mermaid flowcharts showing file dependencies
 - Per-file workflow diagrams
-- Knowledge graphs with nodes (files, functions, classes) and edges (imports, calls, definitions)
+- Knowledge graphs with nodes and edges
 - Folder structure trees
 
-📝 **Rich Code Documentation**
-- **What This File Does** – AI-powered or heuristic summary of file purpose
-- **Line-by-Line Explanation** – Detailed breakdown of significant code lines
-- **Dry Run / Execution Trace** – Simulated execution with inputs/outputs
-- **Function/Class Docs** – Extracted signatures and docstrings
+### 📝 **Rich Documentation**
+- **What This File Does** – AI-powered summaries
+- **Line-by-Line Explanation** – Detailed code breakdown
+- **Dry Run / Execution Trace** – Simulated execution paths
+- **Function/Class Docs** – Complete API documentation
 
-🔍 **Git History Integration**
-- Commit analysis and recent changes
+### 🧠 **AI-Powered Analysis**
+- Google Gemini 2.0 Flash integration
+- Automatic fallback to heuristic analysis
+- Graceful handling of API limits
+
+### 🔄 **Git Integration**
+- Commit history analysis
 - File hotspot detection
 - Change impact tracking
-- Graceful handling of non-git repos
 
-🧠 **LLM-Powered Summaries**
-- Gemini 2.0 Flash integration for intelligent analysis
-- Automatic fallback to heuristics when API unavailable
-- Handles quota limits gracefully
+---
 
-🚀 **Run Instructions**
-- Auto-detected run commands per language
-- Dependency extraction and listing
-- Ready-to-copy execution commands
+## 🚀 Quick Start
+
+### Using the VS Code Extension
+
+1. **Set Python Path** (first time only):
+   - Command Palette → "AI DocGen: Set Python Path"
+   - Select your Python executable with dependencies installed
+
+2. **Generate Docs**:
+   - Click the "AI DocGen" button in the status bar, or
+   - Command Palette → "AI DocGen: Generate Docs for Workspace"
+
+3. **View Results**:
+   - Generated docs open automatically at `build/docs.md`
+   - Check the "AI DocGen" output channel for logs
+
+### Using the Python CLI
+
+```bash
+# Generate docs for sample repo
+python -m cli.cli sample_repo --output build/docs.md
+
+# Generate docs for current directory
+python -m cli.cli . --output docs/API.md
+
+# Generate docs for any project
+python -m cli.cli /path/to/project --output /path/to/output/docs.md
+```
+
+---
+
+## ⚙️ Configuration
+
+### Optional: Gemini API Key
+
+For AI-powered summaries, create a `.env` file:
+
+```env
+GOOGLE_API_KEY=your_api_key_here
+```
+
+Get your key from [Google AI Studio](https://aistudio.google.com/app/apikey)
+
+**Note:** Without an API key, the tool uses heuristic analysis (still works great!)
+
+### VS Code Extension Settings
+
+- `aiDocGen.pythonPath`: Absolute path to Python executable
+- `aiDocGen.outputPath`: Output markdown path (default: `build/docs.md`)
+- `aiDocGen.repoPath`: Repository path to document (default: workspace root)
+
+---
+
+## 📖 Usage
+
+### Command Line Interface
+
+```bash
+usage: python -m cli.cli [-h] [--output OUTPUT] [repo]
+
+positional arguments:
+  repo              Path to repo to document (default: sample_repo)
+
+optional arguments:
+  --output OUTPUT   Output markdown path (default: build/docs.md)
+  -h, --help        Show this help message
+```
+
+### VS Code Commands
+
+- **AI DocGen: Generate Docs for Workspace** – Document the current workspace
+- **AI DocGen: Generate Docs for Folder** – Choose a specific folder to document
+- **AI DocGen: Set Python Path** – Configure the Python executable path
+
+---
+
+## 🏗️ Architecture
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                     Input Repository                         │
+│              (Python, JavaScript, TypeScript)                │
+└────────────────────┬────────────────────────────────────────┘
+                     │
+        ┌────────────┼────────────┐
+        │            │            │
+        ▼            ▼            ▼
+    ┌────────┐  ┌────────┐  ┌────────┐
+    │Python  │  │  JS    │  │   TS   │
+    │Parser  │  │Parser  │  │Parser  │
+    └────┬───┘  └───┬────┘  └───┬────┘
+         │          │           │
+         └──────────┼───────────┘
+                    │
+         ┌──────────▼──────────┐
+         │  Parsed AST Data    │
+         └──────────┬──────────┘
+                    │
+        ┌───────────┼───────────┐
+        │           │           │
+        ▼           ▼           ▼
+    ┌────────┐ ┌────────┐ ┌────────┐
+    │  Git   │ │Knowledge│ │ LLM    │
+    │Analyzer│ │ Graph  │ │Summary │
+    └────┬───┘ └───┬────┘ └───┬────┘
+         │         │          │
+         └─────────┼──────────┘
+                   │
+        ┌──────────▼──────────┐
+        │  Markdown Builder   │
+        └──────────┬──────────┘
+                   │
+                   ▼
+        ┌──────────────────────┐
+        │  Output: docs.md     │
+        └──────────────────────┘
+```
+
+---
+
+## 📄 Output Structure
+
+Generated documentation includes:
+
+1. **Project Overview** – File count, functions, classes, imports
+2. **Architecture Overview** – Mermaid flowchart of dependencies
+3. **Statistics** – Code metrics
+4. **Folder Structure** – Directory tree
+5. **Per-File Workflows** – Individual file flowcharts
+6. **Modules** – Detailed per-file documentation with:
+   - Purpose summary
+   - Line-by-line explanation
+   - Execution trace
+   - Function/class documentation
+7. **Git Insights** – Commit history and hotspots
+8. **How to Run** – Commands and dependencies
+
+---
+
+## 🛠️ Development
+
+### VS Code Extension Development
+
+The extension source is in `vscode-extension/`:
+
+```bash
+cd vscode-extension
+npm install
+npm run compile
+
+# Launch Extension Development Host
+# Press F5 in VS Code
+```
+
+### Python CLI Development
+
+```bash
+# Install in editable mode
+pip install -e .
+
+# Run tests
+python test_parser.py
+```
+
+---
+
+## 📦 Requirements
+
+See [requirements.txt](requirements.txt):
+- GitPython>=3.1.0
+- google-genai>=1.0.0
+- tree-sitter>=0.25.0
+- tree-sitter-languages>=1.10.0
+
+---
+
+## 📝 License
+
+MIT License - see [LICENSE](LICENSE)
+
+---
+
+## 🤝 Contributing
+
+Contributions welcome! Please feel free to submit a Pull Request.
+
+---
+
+## 🔗 Links
+
+- **VS Code Extension**: https://marketplace.visualstudio.com/items?itemName=akash0x.ai-docgen
+- **GitHub Repository**: https://github.com/iesxz-c/documentation-generator-cli-vscode-extension
+- **Report Issues**: https://github.com/iesxz-c/documentation-generator-cli-vscode-extension/issues
+
+---
+
+## 👨‍💻 Author
+
+**Akash** ([@iesxz-c](https://github.com/iesxz-c))
+
+---
+
+Made with ❤️ by Akash
 
 ## 📋 Table of Contents
 
